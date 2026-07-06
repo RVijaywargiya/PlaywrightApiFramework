@@ -3,6 +3,7 @@ package models;
 public class BookingResponse {
 
     private int bookingid;
+    private BookingRequest booking;
 
     public int getBookingid() {
         return bookingid;
@@ -10,5 +11,13 @@ public class BookingResponse {
 
     public void setBookingid(int bookingid) {
         this.bookingid = bookingid;
+    }
+
+    public BookingRequest getBooking() {
+        return booking;
+    }
+
+    public void setBooking(BookingRequest booking) {
+        this.booking = booking;
     }
 }

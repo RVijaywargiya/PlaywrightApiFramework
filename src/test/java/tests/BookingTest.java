@@ -1,12 +1,15 @@
 package tests;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import models.BookingRequest;
 import models.BookingResponse;
-import org.testng.annotations.Test;
 import services.BookingService;
 import testData.BookingData;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class BookingTest {
 
@@ -19,13 +22,23 @@ public class BookingTest {
         BookingRequest request =
                 BookingData.validBooking();
 
+        System.out.println(request);
+
         BookingResponse response =
                 bookingService.createBooking(
                         request
                 );
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println("Response JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        // ensure we received a response before asserting on its contents
+        assertThat(response).isNotNull();
 
-        assertThat(
-                response.getBookingid()
-        ).isGreaterThan(0);
+        assertThat(response.getBookingid())
+                .isNotNull()
+                .isGreaterThan(0);
     }
 }
