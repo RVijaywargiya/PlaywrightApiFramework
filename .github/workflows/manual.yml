@@ -32,4 +32,5 @@ jobs:
       run: echo "Hello ${{ inputs.name }}"
 
     - name: Run tests
-      run: mvn clean test
+      run: cd C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2025.2\plugins\maven\lib\maven3\bin
+            mvn clean test
