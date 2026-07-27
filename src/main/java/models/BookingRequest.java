@@ -1,5 +1,8 @@
 package models;
 
+import lombok.Data;
+
+@Data
 public class BookingRequest {
 
     private String firstname;
@@ -8,18 +11,12 @@ public class BookingRequest {
     private boolean depositpaid;
     private BookingDates bookingdates;
     private String additionalneeds;
+    private String id;
 
     public BookingRequest() {
     }
 
-    public BookingRequest(
-            String firstname,
-            String lastname,
-            int totalprice,
-            boolean depositpaid,
-            BookingDates bookingdates,
-            String additionalneeds) {
-
+    public BookingRequest(String firstname, String lastname, int totalprice, boolean depositpaid, BookingDates bookingdates, String additionalneeds) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.totalprice = totalprice;

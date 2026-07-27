@@ -1,44 +1,53 @@
 package tests;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.testng.annotations.Test;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.microsoft.playwright.APIResponse;
+import config.ConfigManager;
 import models.BookingRequest;
-import models.BookingResponse;
+import org.testng.annotations.Test;
 import services.BookingService;
-import testData.BookingData;
+import testData.BookingDataProvider;
+import utils.JsonUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookingTest {
 
-    private final BookingService bookingService =
-            new BookingService();
+    private final BookingService bookingService = new BookingService();
+
+    private APIResponse createNewBooking() {
+        BookingRequest request = BookingDataProvider.validBooking();
+        APIResponse response = bookingService.createBooking(request);
+        String id = JsonUtils.getValueFromJson(response, "id");
+        request.setId(id);
+        return bookingService.createBooking(request);
+    }
+
 
     @Test
     public void shouldCreateBooking() {
 
-        BookingRequest request =
-                BookingData.validBooking();
-
+        BookingRequest request = BookingDataProvider.validBooking();
         System.out.println(request);
 
-        BookingResponse response =
-                bookingService.createBooking(
-                        request
-                );
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            System.out.println("Response JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        // ensure we received a response before asserting on its contents
-        assertThat(response).isNotNull();
+        APIResponse response = bookingService.createBooking(request);
+        System.out.println("Request URL: " + ConfigManager.baseUrl() + "/booking");
 
-        assertThat(response.getBookingid())
-                .isNotNull()
-                .isGreaterThan(0);
+        assertThat(response).isNotNull();
+        assertThat(JsonUtils.getValueFromJson(response, "id")).isNotNull();
     }
+
+//    @Test
+//    public void getBooking() {
+//        APIResponse response = createNewBooking();
+//
+//        // ensure creation succeeded
+//        assertThat(response).isNotNull();
+//        int id = response.getBookingid();
+//
+//        System.out.println("Booking id : " + id);
+//
+//        APIResponse getBookingByIdResponse = bookingService.getBooking(id);
+//
+//        assertThat(getBookingByIdResponse.status()).isEqualTo(200);
+//    }
 }

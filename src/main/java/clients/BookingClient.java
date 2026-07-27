@@ -9,26 +9,13 @@ import utils.ApiContextManager;
 
 public class BookingClient {
 
-    private final APIRequestContext apiContext =
-            ApiContextManager.context();
+    private final APIRequestContext apiContext = ApiContextManager.context();
 
-    public APIResponse createBooking(
-            BookingRequest request) {
-
-        return apiContext.post(
-                ConfigManager.baseUrl() + "/booking",
-                RequestOptions.create()
-                        .setData(request)
-        );
+    public APIResponse createBooking(BookingRequest request) {
+        return apiContext.post(ConfigManager.baseUrl() + "/booking", RequestOptions.create().setData(request));
     }
 
-    public APIResponse getBooking(
-            int bookingId) {
-
-        return apiContext.get(
-                ConfigManager.baseUrl()
-                        + "/booking/"
-                        + bookingId
-        );
+    public APIResponse getBooking(int bookingId) {
+        return apiContext.get(ConfigManager.baseUrl() + "/booking/" + bookingId);
     }
 }
