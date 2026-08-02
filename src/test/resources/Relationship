@@ -6,7 +6,7 @@ BookingService
     |
     | uses
     v
-BookingClient
+PlaywrightBookingClient
     |
     | uses
     +---------------------> ApiContextManager
@@ -25,7 +25,7 @@ BookingService
     | returns
     +---------------------> BookingResponse
 
-BookingData
+BookingDataProvider
     |
     | creates
     v

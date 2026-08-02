@@ -11,7 +11,6 @@ public class BookingRequest {
     private boolean depositpaid;
     private BookingDates bookingdates;
     private String additionalneeds;
-    private String id;
 
     public BookingRequest() {
     }

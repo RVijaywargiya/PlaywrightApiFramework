@@ -2,7 +2,7 @@ BookingTest
     |
     | validBooking()
     v
-BookingData
+BookingDataProvider
     |
     | BookingRequest
     v
@@ -10,23 +10,24 @@ BookingService
     |
     | createBooking(request)
     v
-BookingClient
+PlaywrightBookingClient
     |
     | POST /booking
     v
 API
     |
-    | APIResponse
+    | JSON response
     v
-BookingClient
-    |
-    v
-BookingService
+PlaywrightBookingClient
     |
     | JsonUtils.fromJson()
     v
 BookingResponse
     |
+    v
+BookingService
+    |
+    | return BookingResponse
     v
 BookingTest
     |

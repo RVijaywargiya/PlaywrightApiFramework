@@ -1,14 +1,30 @@
 # Test automation framework for API automation built on top of Playwright with Java
 
-This test automation framewework serves as a single framework to create both UI and API automated test cases.
+This test automation framework serves as a single framework to create both UI and API automated test cases.
 Web Application Under Test - https://www.saucedemo.com/
 API Application Under Test - https://api.instantwebtools.net//v1/airlines
 
-ConfigManager → configuration
-ApiContextManager → Playwright API lifecycle
-BookingClient → HTTP communication
-BookingService → business workflows
-BookingRequest/Response → DTOs
-BookingData → test data
-JsonUtils → serialization/deserialization
-BookingTest → assertions
+## Architecture overview
+
+```mermaid
+flowchart TD
+    Test[BookingTest] --> Service[BookingService]
+    Service --> Client[PlaywrightBookingClient]
+    Client --> Config[ConfigManager]
+    Client --> Context[ApiContextManager]
+    Service --> Utils[JsonUtils]
+    Service --> Request[BookingRequest]
+    Service --> Response[BookingResponse]
+    Test --> Data[BookingDataProvider]
+```
+
+## Component summary
+
+- ConfigManager → configuration and base URL
+- ApiContextManager → Playwright API context lifecycle
+- PlaywrightBookingClient → HTTP communication
+- BookingService → booking workflow orchestration
+- BookingRequest/BookingResponse → DTOs
+- BookingDataProvider → test data generation
+- JsonUtils → serialization/deserialization
+- BookingTest → assertions and test execution

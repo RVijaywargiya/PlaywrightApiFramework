@@ -30,16 +30,33 @@ public final class JsonUtils {
             throw new RuntimeException(e);
         }
 
-        return root.get(key).asText();
+        JsonNode node = root.get(key);
+        if (node == null) {
+            throw new RuntimeException("Key '" + key + "' not found in response JSON");
+        }
+        return node.asText();
     }
 
     public static void printResponseBody(APIResponse response) {
         try {
             String responseBody = response.text();
             Object prettyJson = mapper.readValue(responseBody, Object.class);
-            System.out.println("Response JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(prettyJson));
+            printPrettyJson(prettyJson);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void printResponseBody(Object responseBody) {
+        try {
+            Object prettyJson = mapper.convertValue(responseBody, Object.class);
+            printPrettyJson(prettyJson);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void printPrettyJson(Object value) throws JsonProcessingException {
+        System.out.println("Response JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value));
     }
 }
